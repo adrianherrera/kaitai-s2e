@@ -18,7 +18,7 @@ struct S2E_KAITAI_COMMAND;
 namespace s2e {
 namespace plugins {
 
-class KaitaiStruct : public Plugin, public BaseInstructionsPluginInvokerInterface {
+class KaitaiStruct : public Plugin, public IPluginInvoker {
     S2E_PLUGIN
 
 public:
@@ -28,9 +28,10 @@ public:
     void initialize();
 
     /**
-     * The method from BaseInstructionsPluginInvokerInterface that we must implement to respond to a custom command.
-     * This method takes the current S2E state, a pointer to the custom command object (in guest memory) and the size
-     * of the custom command object.
+     * The method from IPluginInvoker that we must implement to respond to a
+     * custom command. This method takes the current S2E state, a pointer to
+     * the custom command object (in guest memory) and the size of the custom
+     * command object.
      */
     virtual void handleOpcodeInvocation(S2EExecutionState *state, uint64_t guestDataPtr, uint64_t guestDataSize);
 

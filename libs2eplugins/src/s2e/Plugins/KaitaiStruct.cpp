@@ -32,7 +32,7 @@ bool KaitaiStruct::handleMakeSymbolic(S2EExecutionState *state, const S2E_KAITAI
     std::vector<uint8_t> data(size);
 
     // Read the input file's contents from guest memory
-    if (!state->mem()->readMemoryConcrete(addr, data.data(), sizeof(uint8_t) * size)) {
+    if (!state->mem()->read(addr, data.data(), sizeof(uint8_t) * size)) {
         return false;
     }
 
@@ -75,7 +75,7 @@ void KaitaiStruct::handleOpcodeInvocation(S2EExecutionState *state, uint64_t gue
     }
 
     // Read the command
-    if (!state->mem()->readMemoryConcrete(guestDataPtr, &cmd, guestDataSize)) {
+    if (!state->mem()->read(guestDataPtr, &cmd, guestDataSize)) {
         getWarningsStream(state) << "S2E_KAITAI_COMMAND: Failed to read command\n";
         exit(1);
     }
@@ -87,7 +87,7 @@ void KaitaiStruct::handleOpcodeInvocation(S2EExecutionState *state, uint64_t gue
             cmd.MakeSymbolic.Result = success ? 0 : 1;
 
             // Write the result back to the guest
-            if (!state->mem()->writeMemory(guestDataPtr, cmd)) {
+            if (!state->mem()->write(guestDataPtr, cmd)) {
                 getWarningsStream(state) << "S2E_KAITAI_COMMAND: Failed to write result to guest\n";
                 exit(1);
             }
