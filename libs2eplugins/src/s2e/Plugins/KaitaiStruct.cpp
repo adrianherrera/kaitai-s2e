@@ -87,7 +87,7 @@ void KaitaiStruct::handleOpcodeInvocation(S2EExecutionState *state, uint64_t gue
             cmd.MakeSymbolic.Result = success ? 0 : 1;
 
             // Write the result back to the guest
-            if (!state->mem()->write(guestDataPtr, cmd)) {
+            if (!state->mem()->write(guestDataPtr, cmd, guestDataSize)) {
                 getWarningsStream(state) << "S2E_KAITAI_COMMAND: Failed to write result to guest\n";
                 exit(1);
             }
